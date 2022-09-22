@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -30,9 +31,13 @@ public class Task {
     private LocalDate date;
     private boolean isCompleted;
     private String creatorName;
-    @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
-    private User owner;
+    @ManyToMany
+    @JoinTable(name = "task_user",joinColumns = {
+        @JoinColumn(name="task_id")
+    },inverseJoinColumns = {
+        @JoinColumn(name="user_id")
+    })
+    private List<User> owner;
 
     private int timeSpent = 0;
     
@@ -67,7 +72,7 @@ public class Task {
         this.date = date;
         this.isCompleted = isCompleted;
         this.creatorName = creatorName;
-        this.owner = owner;
+        this.owner = List.of(owner);
     }
 
     public Long getId() {
@@ -119,11 +124,11 @@ public class Task {
     }
 
     public User getOwner() {
-        return owner;
+        return owner.get(0);
     }
 
     public void setOwner(User owner) {
-        this.owner = owner;
+        this.owner = List.of(owner);
     }
 
     @Override

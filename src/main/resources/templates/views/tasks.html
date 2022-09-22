@@ -65,7 +65,6 @@
               <tr
                 th:each="t : ${tasks}"
                 th:if="${!onlyInProgress or !t.completed}"
-                th:with="isThisOneSigned=${t.owner!=null ? t.owner.equals(signedUser) : false}"
               >
                 <!--Task name and description link-->
                 <td class="text-left">
@@ -114,8 +113,7 @@
                           th:text="${'Date: '+#temporals.format(t.date, 'dd-MM-yyyy')}"
                         ></p>
                         <p
-                          th:if="${t.owner!=null}"
-                          th:text="${'Task owner: '+t.owner.getName()}"
+                          th:text="${'Task owner: '+t.owner}"
                         ></p>
                         <p th:text="${'Task creator: '+t.creatorName}"></p>
                         <!--edit button-->

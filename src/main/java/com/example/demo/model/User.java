@@ -1,15 +1,22 @@
 package com.example.demo.model;
 
-import org.hibernate.validator.constraints.Length;
-
-import lombok.ToString;
-
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class User {
@@ -29,7 +36,7 @@ public class User {
     private String password;
     @Column(columnDefinition = "VARCHAR(255) DEFAULT 'images/user.png'")
     private String photo;
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "owner")
     private List<Task> tasksOwned;
 
     @ManyToMany(cascade = CascadeType.MERGE)
